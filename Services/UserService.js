@@ -22,12 +22,20 @@ async function deleteUser(id) {
     return prisma.user.delete({
         where: { id: Number(id) }
     })
-
 }
+
+async function editUser(id, data) {
+    return prisma.user.update({
+        where: { id: Number(id) },
+        data
+    })
+}
+
 
 module.exports = {
     getAllUsers,
     createUser,
     deleteUser,
+    editUser,
     getUser
 };
