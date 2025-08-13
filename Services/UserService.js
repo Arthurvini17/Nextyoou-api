@@ -12,7 +12,14 @@ async function createUser(data) {
     });
 }
 
+async function getUser(id) {
+    return prisma.user.findFirst({
+        where: { id: Number(id) }
+    });
+}
+
 module.exports = {
     getAllUsers,
-    createUser
+    createUser,
+    getUser
 };
