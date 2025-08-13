@@ -49,6 +49,26 @@ module.exports = {
         } catch (error) {
             return res.status(500).json({ message: 'erro no servidor', error })
         }
+    },
+
+    deleteUser: async (req, res) => {
+        const { id } = req.params;
+
+        if (!id || isNaN(id)) {
+            return res.status(404).json({ message: 'ID invalido' });
+        }
+
+        try {
+            const deleteaUser = await UserService.deleteUser(id);
+
+            if (!deleteaUser) {
+                return res.status(400).json({ message: 'Usuario não existe' })
+            }
+
+            return res.status(200).json({ message: 'Usuario deletado', id })
+        } catch (error) {
+            return res.status(500).json({ message: 'erro no servidor', error });
+        }
     }
 
 
