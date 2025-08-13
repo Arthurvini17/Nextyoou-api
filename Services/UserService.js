@@ -6,11 +6,13 @@ async function getAllUsers() {
     });
 }
 
-async function createUser() {
+async function createUser(data) {
     return prisma.user.create({
+        data
     });
 }
 
 module.exports = {
-    getAllUsers
+    getAllUsers,
+    createUser
 };
