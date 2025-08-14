@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
     getAllUsers: async (req, res) => {
-
         try {
             const users = await UserService.getAllUsers();
             console.log(users);
