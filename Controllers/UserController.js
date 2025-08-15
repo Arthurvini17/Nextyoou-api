@@ -9,7 +9,7 @@ module.exports = {
             if (!users || users.length === 0) {
                 return res.status(404).json({ message: 'usuários não encontrados' });
             }
-            return res.status(200).json({ message: 'busca de usuários', users });
+            return res.json(users);
         } catch (error) {
             return res.status(500).json({ message: 'Erro de servidor', error });
         }
@@ -20,12 +20,13 @@ module.exports = {
         //criptografando a senha
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: 'Voce precisa preencher os campos' });
+        }
+
         try {
             const createUser = await UserService.createUser(
                 { name, email, password: hashedPassword });
-            if (!createUser) {
-                return res.status(400).json({ message: 'Digite algo' });
-            }
 
             return res.status(200).json({ message: 'usuario criado', createUser });
         } catch (error) {

@@ -15,6 +15,7 @@ function authToken(req, res, next) {
     //significa que o token vai ser o 2 parametro da url
     const token = authHeader?.split(' ')[1]
 
+
     if (!token) {
         return res.sendStatus(401);
     }
