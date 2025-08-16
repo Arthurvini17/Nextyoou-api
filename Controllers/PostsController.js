@@ -51,4 +51,55 @@ module.exports = {
     },
 
 
+    //editando post do usuario
+    editPost: async (req, res) => {
+
+        const { id } = req.params;
+        const { title, description } = req.body;
+
+        if (!title || !description) {
+            return res.status(400).json({ message: 'Voce precisa preencher os campos' });
+        }
+
+        try {
+            const updatePosts = await PostsServices.editPost(
+                //dados vindo da req body
+                { title, description },
+                //dados do usuario logado
+                req.user.id,
+                //id do post
+                id
+            );
+            return res.status(200).json({ message: 'Post atualizado com sucesso', updatePosts });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: 'erro no servidor' })
+        }
+    },
+
+    deletePost: async (req, res) => {
+        const { id } = req.params;
+
+
+
+        if (!id || isNaN(id)) {
+            return res.status(404).json({ message: 'ID invalido' });
+        }
+
+        try {
+            const deleteResult = await PostsServices.deletePost(id, req.user.id);
+
+            if (deleteResult.count === 0) {
+                return res.status(404).json({ message: 'Post não encontrado' });
+            }
+
+
+
+            return res.status(200).json({ message: 'Post deletado com sucesso' });
+
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: 'Erro no servidor', error });
+        }
+    }
 };

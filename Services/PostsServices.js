@@ -19,19 +19,36 @@ async function createPost(data, userId) {
     })
 }
 
-async function editPost(data, userId) {
+async function editPost(data, userId, id) {
     return prisma.post.update({
+
+        //pega o id do usuario
+        //o usuario so pode editar o respectivo post dele
+        where: {
+            id: Number(id), userId,
+
+        },
+        //
         data: {
             ...data,
             userId
         }
     })
+}
 
+async function deletePost(id, userId) {
+    return prisma.post.deleteMany({
+        where: {
+            id: Number(id),
+            userId
+        }
+    })
 }
 
 module.exports = {
     getPost,
     createPost,
+    deletePost,
     editPost
 
 }
